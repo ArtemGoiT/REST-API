@@ -6,7 +6,7 @@ import { env } from './utils/env.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
-const PORT = Number(env('PORT', '3000'));
+const PORT = Number(env('PORT', '4000'));
 
 export const startServer = () => {
   const app = express();

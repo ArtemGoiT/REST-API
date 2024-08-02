@@ -1,12 +1,16 @@
-import { model, Shema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-const studentsSchema = new Shema(
+const studentsSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
-
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     age: {
       type: Number,
       required: true,
