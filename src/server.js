@@ -27,6 +27,7 @@ export const startServer = () => {
       message: 'Hello Word!',
     });
   });
+
   app.use(studentsRouter);
   app.use('*', notFoundHandler);
   app.use(errorHandler);
