@@ -1,10 +1,11 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import studentsRouter from './routers/students.js';
+
 import { env } from './utils/env.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import router from './routers/index.js';
 
 const PORT = Number(env('PORT', '4000'));
 
@@ -28,7 +29,7 @@ export const startServer = () => {
     });
   });
 
-  app.use(studentsRouter);
+  app.use(router);
   app.use('*', notFoundHandler);
   app.use(errorHandler);
 
