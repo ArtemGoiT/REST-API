@@ -45,8 +45,8 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Data(Date.new() + FIFTEEM_MINUTES),
-    refreshTokenValidUntil: new Data.new(+ONE_DAY),
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEM_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   };
 };
 
