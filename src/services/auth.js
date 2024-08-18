@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import createHttpError from 'http-errors';
 import { UsersCollection } from '../db/models/user.js';
 import bcrypt from 'bcrypt';
@@ -27,7 +28,7 @@ export const loginUser = async (payload) => {
   const accessToken = randomBytes(30).toString('base64');
   const refreshToken = randomBytes(30).toString('base64');
   return await SessionsCollection.create({
-    userID: user_id,
+    userID: user._id,
     accessToken,
     refreshToken,
     accessTokenValidUntil: new Date(Date.now() + FIFTEEM_MINUTES),
@@ -49,9 +50,9 @@ const createSession = () => {
   };
 };
 
-export const refreshUsersSession = async ({ sessionID, refreshToken }) => {
+export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   const session = await SessionsCollection.findOne({
-    _id: sessionID,
+    _id: sessionId,
     refreshToken,
   });
 
@@ -66,7 +67,7 @@ export const refreshUsersSession = async ({ sessionID, refreshToken }) => {
   }
   const newSession = createSession();
 
-  await SessionsCollection.deleteOne({ _id: sessionID, refreshToken });
+  await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
   return await SessionsCollection.create({
     userId: session.userId,
     ...newSession,

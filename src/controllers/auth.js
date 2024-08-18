@@ -1,6 +1,7 @@
 import { ONE_DAY } from '../constants/index.js';
 import {
   loginUser,
+  logoutUser,
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
@@ -16,11 +17,11 @@ export const registerUserController = async (req, res) => {
 };
 export const LoginUserController = async (req, res) => {
   const session = await loginUser(req.body);
-  res.cookie('sessionId', session._id, {
+  res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: new Date(Date.now() + ONE_DAY),
   });
-  res.cookie('sessionID', session._id, {
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: new Date(Date.now() + ONE_DAY),
   });
@@ -34,7 +35,7 @@ export const LoginUserController = async (req, res) => {
 };
 export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
-    await logoutUser(req.cookie.sessionId);
+    await logoutUser(req.cookies.sessionId);
   }
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
@@ -53,8 +54,8 @@ const setupSession = (res, session) => {
 };
 export const refreshUsersSessionController = async (req, res) => {
   const session = await refreshUsersSession({
-    sessionId: req.cookie.sessionId,
-    refreshToken: req.cookie.refreshToken,
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
   });
   setupSession(res, session);
   res.json({

@@ -8,7 +8,9 @@ import {
 } from '../controllers/auth.js';
 import { validateBody } from '../middleware/validateBody.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+
 const router = Router();
+
 router.post(
   '/register',
   validateBody(registerUserSchema),
@@ -23,5 +25,5 @@ router.post(
 
 router.post('/logout', ctrlWrapper(logoutUserController));
 
-router.post('/refresh', refreshUsersSessionController);
+router.post('/refresh', ctrlWrapper(refreshUsersSessionController));
 export default router;
