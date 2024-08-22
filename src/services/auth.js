@@ -4,7 +4,10 @@ import { UsersCollection } from '../db/models/user.js';
 import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../db/models/session.js';
 import { FIFTEEM_MINUTES, ONE_DAY } from '../constants/index.js';
-
+import jwt from 'jsonwebtoken';
+import { SMTP } from '../constants/index.js';
+import { env } from '../utils/env.js';
+import { sendEmail } from '../utils/sendMail.js';
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) throw createHttpError(409, 'Email in use');
@@ -74,9 +77,25 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   });
 };
 
-export const requestResetToken = async (email) => {
+export const requestResetEmail = async (email) => {
   const user = await UsersCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+  // const resetToken = jwt.sing(
+  //   {
+  //     sub: user._id,
+  //     email,
+  //   },
+  //   env('JWT_SECRET'),
+  //   {
+  //     expires: '15m',
+  //   },
+  // );
+  await sendEmail({
+    from: env(SMTP.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password',
+    html: '<h1> SMmail </h1>',
+  });
 };
