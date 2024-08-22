@@ -7,7 +7,7 @@ import { FIFTEEM_MINUTES, ONE_DAY } from '../constants/index.js';
 import jwt from 'jsonwebtoken';
 import { SMTP } from '../constants/index.js';
 import { env } from '../utils/env.js';
-import { sendEmail } from '../utils/sendMail.js';
+import { sendEmail } from '../utils/sendEmail.js';
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) throw createHttpError(409, 'Email in use');
@@ -82,20 +82,21 @@ export const requestResetEmail = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
-  // const resetToken = jwt.sing(
-  //   {
-  //     sub: user._id,
-  //     email,
-  //   },
-  //   env('JWT_SECRET'),
-  //   {
-  //     expires: '15m',
-  //   },
-  // );
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    env('JWT_SECRET'),
+    {
+      expiresIn: '15m',
+    },
+  );
   await sendEmail({
     from: env(SMTP.SMTP_FROM),
     to: email,
     subject: 'Reset your password',
-    html: '<h1> SMmail </h1>',
+    html: `<h1>НАЖМИ ЧТОБ ПОЛОМАТЬ СИСТЕМУ<a href="${resetToken}">here</a> to reset your password!</h1>`,
+    // html: '<h1>Smail</h1>',
   });
 };
