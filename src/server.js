@@ -7,6 +7,7 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import router from './routers/index.js';
 import cookieParser from 'cookie-parser';
+import { UPLOAD_DIR } from './constants/index.js';
 
 const PORT = Number(env('PORT', '4000'));
 
@@ -25,6 +26,7 @@ export const startServer = () => {
     }),
   );
 
+  app.use('/uploads', express.static(UPLOAD_DIR));
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello Word!',
