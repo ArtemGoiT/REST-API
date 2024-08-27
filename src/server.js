@@ -8,6 +8,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import router from './routers/index.js';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
+import { swaggerDocs } from './middleware/swaggerDocs.js';
 
 const PORT = Number(env('PORT', '4000'));
 
@@ -27,6 +28,7 @@ export const startServer = () => {
   );
 
   app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello Word!',

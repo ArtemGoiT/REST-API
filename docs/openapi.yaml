@@ -1,26 +1,30 @@
 openapi: 3.1.0
 info:
-version: 1.0.0
-title: Students app
-license:
-name: Apache 2.0
-url: http://www.apache.org/lincenses/LICENSE-2.0.html
-description:
-This is a documentations of students app
+  version: 1.0.0
+  title: Students app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of students app
 tags:
-- name: Students
-descriptions: Operations about users.
--name Auth
-descriptions: Auth operations.
+  - name: Students
+    description: Operations about users.
+  - name: Auth
+    description: Auth operations.
 servers:
-- url: http://localhost:4000
-- url: https://exemple.com/api/v1
+  - url: http://localhost:4000
+  - url: https://example.com/api/v1
 paths:
+  /students:
+    get:
+      $ref: ../../paths/students/get.yaml
+    post:
+      $ref: ../../paths/students/post.yaml
   /students/{id}:
     get:
       $ref: ../swagger/paths/students/{id}/get.yaml
 components:
-securitySchemes:
-bearerAuth:
-type: http
-schema: bearer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
