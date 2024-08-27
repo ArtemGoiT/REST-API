@@ -1,3 +1,5 @@
+#/swagger/paths/students/post.yaml
+
 tags:
   - Students
 summary: Create student
@@ -26,7 +28,7 @@ requestBody:
             type: number
             example: 12
           gender:
-            description: "Student's gender"
+            description: "Student's age"
             type: string
             enum: ['male', 'female', 'other']
           avgMark:
@@ -45,26 +47,26 @@ requestBody:
             description: "Student's photo"
             type: string
             format: binary
-  responses:
-    '201':
-      description: Creates a student
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - status
-              - message
-              - data
-            properties:
-              status:
-                type: integer
-                example: 201
-              message:
-                type: string
-                example: Successfully created a student!
-              data:
-                type: object
-                $ref: '../../components/schemas/student.yaml'
-    '401':
-      $ref: '../../components/responses/401.yaml'
+responses:
+  '201':
+    description: Creates a student
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a student!
+            data:
+              type: object
+              $ref: '../../components/schemas/student.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
