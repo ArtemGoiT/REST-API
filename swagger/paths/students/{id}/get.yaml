@@ -33,5 +33,5 @@ responses:
             data:
               type: object
               $ref: '../../../components/schemas/student.yaml'
-  '401':
+  '404':
     $ref: '../../../components/responses/401.yaml'
